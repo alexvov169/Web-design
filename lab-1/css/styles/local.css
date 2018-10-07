@@ -1,0 +1,263 @@
+html {
+	font-family: sans-serif;
+}
+body {
+	margin: 0;
+}
+article,
+footer,
+header {
+	display: block;
+}
+a {
+	background-color: transparent;
+}
+a:active,
+a:hover {
+	outline: 0;
+}
+h1 {
+	margin: .67em 0;
+	font-size: 2em;
+}
+img {
+	border: 0;
+}
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+td,
+th {
+	padding: 0;
+}
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+}
+html {
+	font-size: 10px;
+
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #333;
+	background-color: #fff;
+}
+a {
+	color: #337ab7;
+	text-decoration: none;
+}
+
+img {
+	vertical-align: middle;
+}
+h1,
+h3 {
+	font-family: inherit;
+	font-weight: 500;
+	line-height: 1.1;
+	color: inherit;
+}
+h1,
+h3 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+h1 {
+	font-size: 36px;
+}
+h3 {
+	font-size: 24px;
+}
+p {
+	margin: 0 0 10px;
+}
+.text-center {
+	text-align: center;
+}
+ul {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+.container {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+@media (min-width: 768px) {
+	.container {
+		width: 750px;
+	}
+}
+@media (min-width: 992px) {
+	.container {
+		width: 970px;
+	}
+}
+@media (min-width: 1200px) {
+	.container {
+		width: 1170px;
+	}
+}
+.container-fluid {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.row {
+	margin-right: -15px;
+	margin-left: -15px;
+}
+.col-sm-4, .col-sm-8 {
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+@media (min-width: 768px) {
+	.col-sm-4, .col-sm-8 {
+		float: left;
+	}
+	.col-sm-8 {
+		width: 66.66666667%;
+	}
+	.col-sm-4 {
+		width: 33.33333333%;
+	}
+}
+table {
+	background-color: transparent;
+}
+th {
+	text-align: left;
+}
+.nav {
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+}
+.nav > li {
+	position: relative;
+	display: block;
+}
+.nav > li > a {
+	position: relative;
+	display: block;
+	padding: 10px 15px;
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+	text-decoration: none;
+	background-color: #eee;
+}
+.navbar {
+	position: relative;
+	min-height: 50px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+}
+@media (min-width: 768px) {
+	.navbar {
+		border-radius: 4px;
+	}
+}
+.navbar-nav {
+	margin: 7.5px -15px;
+}
+.navbar-nav > li > a {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	line-height: 20px;
+}
+@media (min-width: 768px) {
+	.navbar-nav {
+		float: left;
+		margin: 0;
+	}
+	.navbar-nav > li {
+		float: left;
+	}
+	.navbar-nav > li > a {
+		padding-top: 15px;
+		padding-bottom: 15px;
+	}
+}
+.navbar-inverse {
+	background-color: #222;
+	border-color: #080808;
+}
+.navbar-inverse .navbar-nav > li > a {
+	color: #9d9d9d;
+}
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+	color: #fff;
+	background-color: transparent;
+}
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+	color: #fff;
+	background-color: #080808;
+}
+.jumbotron {
+	padding-top: 30px;
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+	color: inherit;
+	background-color: #eee;
+}
+.jumbotron h1 {
+	color: inherit;
+}
+.jumbotron p {
+	margin-bottom: 15px;
+	font-size: 21px;
+	font-weight: 200;
+}
+.jumbotron .container {
+	max-width: 100%;
+}
+@media screen and (min-width: 768px) {
+	.jumbotron {
+		padding-top: 48px;
+		padding-bottom: 48px;
+	}
+	.jumbotron h1 {
+		font-size: 63px;
+	}
+}
+.panel {
+	margin-bottom: 20px;
+	background-color: #fff;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+.container:before,
+.container:after,
+.container-fluid:before,
+.container-fluid:after,
+.row:before,
+.row:after,
+.nav:before,
+.nav:after,
+.navbar:before,
+.navbar:after {
+	display: table;
+	content: " ";
+}
+.container:after,
+.container-fluid:after,
+.row:after,
+.nav:after,
+.navbar:after {
+	clear: both;
+}

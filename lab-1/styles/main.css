@@ -1,0 +1,83 @@
+body {
+	background-color: #ddd;
+}
+.jumbotron {
+	background: black no-repeat center center;
+	color: white;
+	margin: 0;
+}
+.navbar {
+	border: none;
+	border-radius: 0;
+	margin: 0;
+}
+.basic-panel, .panel, .panel-inverse {
+	margin: 10px;
+}
+.panel-left-poster,
+.panel {
+	padding: 20px;
+	border-radius: 0;
+	background-color: white;
+}
+.panel-inverse {
+	padding: 20px;
+	border-radius: 0;
+	background-color: black;
+	color: white;
+}
+table {
+	width: 100%; 
+	text-align: left; 
+	font-size: 88%; 
+	line-height: 1.5em;
+}
+.wiki-table-head, 
+.wiki-language-field, 
+.wiki-main-info-heading {
+	text-align: center; 
+	background-color: #D8DDE8;
+}
+.wiki-table-head {
+	font-size: 125%; 
+	font-weight: bold;
+}
+.wiki-language-field {
+	font-size: 100%; 
+	font-style: italic; 
+	font-weight: normal;
+}
+.wiki-main-info-heading {
+	font-size: 100%; 
+	font-weight: bold;
+}
+.wiki-table-heading {
+	text-align: left;
+}
+
+.wiki-table-data {
+	background-color: #EFF0F7;
+}
+
+.wiki-table-data img {
+	max-width: 200px;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.panel h4 {
+	text-align: center;
+}
+
+.panel-poster img {
+	max-width: 250px;
+	padding: auto
+}
+
+img {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
