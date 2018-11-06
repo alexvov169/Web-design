@@ -1,16 +1,41 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="date-in	put.css">
+	<link rel="stylesheet" type="text/css" href="date-input.css">
 </head>
 <body>
 	<h1>Date Pick</h1>
 
-	<div id="date-pick-wrapper"></div>
+	<div>
+		<input type="text" name="" id="date-text">
+		<table id="date-pick-wrapper" width="250px">
+			<thead>
+				<tr><td colspan="7" class="button" id="date-pick-close">close</td></tr>
+				<tr id="year-switcher"></tr>
+				<tr id="month-switcher"></tr>
+			</thead>
+			<tbody id="day-switcher"></tbody>
+			
+		</table>
+	</div>
 
 	<script type="text/javascript" src="dateInput.js"></script>
 	<script type="text/javascript">
-		document.getElementById('date-pick-wrapper').appendChild(datePick());
-	</script>
-</body>
-</html>
+		datePick(document.getElementById('date-text'), 
+			document.getElementById('date-pick-wrapper'),
+			document.getElementById('date-pick-close'),
+			document.getElementById('year-switcher'), 
+			document.getElementById('month-switcher'),  
+			document.getElementById('day-switcher'),
+			function() {
+				return document.createElement('tr');
+			},
+			function() {
+				return document.createElement('th');
+			},
+			function() {
+				return document.createElement('td');
+			});
+		</script>
+	</body>
+	</html>

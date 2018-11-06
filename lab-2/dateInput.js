@@ -5,109 +5,33 @@ var element = (function() {
 })();
 
 var textOutput = (function() {
-	return function() {
-		var node = element('input');
-		node.setAttribute('type', 'text');
-		// todo
+	return function(target) {
+		target.setAttribute('type', 'text');
 		return {
-			getRoot: function() {
-				return node;
-			},
+			target: target,
 			setDate: function(date) {
-				node.value = date;
+				target.value = date;
 			}
 		};
 	};
 })();
+
 
 var button = (function() {
-	return {
-		create: function(innerHTML, click_listener)  {
-			var button = element('button');
-			button.innerHTML = innerHTML;
-			button.addEventListener('click', click_listener, true);
-			return button;
-		}
-	};
-})();
-var nextPreviousButton = (function() {
-	return {
-		create: function(previous_listener, next_listener) {
-			var node = element('tr');
-			var label = element('td');
-			label.setAttribute('class', 'switcher-label');
-			var ld = element('td');
-			var rd = element('td');
-			var left_button = button.create('<', previous_listener);
-			left_button.setAttribute('class', 'left-button');
-			ld.appendChild(left_button);
-			node.appendChild(ld);
-			node.appendChild(label);
-			var right_button = button.create('>', next_listener);
-			right_button.setAttribute('class', 'right-button');
-			rd.appendChild(right_button);
-			node.appendChild(rd);
-
-			return {
-				getRoot: function() {
-					return node;
-				},
-				getPrevious: function() {
-					return previous;
-				},
-				getNext: function() {
-					return next;
-				},
-				setLabel: function(innerHTML) {
-					label.innerHTML = innerHTML;
-				}
-			};
-		}
-	};
-})();
-var dayTableHeading = (function() {
-	var weekdays = ['Mo', 'Tu', 'We', 'Th', "Fr", 'Sa', 'Su'];
-	var node = element('tr');
-	for (var i in weekdays) {
-		var data = element('th');
-		data.innerHTML = weekdays[i];
-		node.appendChild(data);
-	}
-	return {
-		create: function() {
-			return node;
-		}
-	};
-})();
-var dayButtonWrapper = (function() {
-	return function(side_effect) {
-		var selected_day = element('div');
-		function select() {
-			side_effect(selected_day);
-			selected_day.setAttribute('class', 'active');
-		};
-		function deselect() {
-			selected_day.setAttribute('class', '');
-		};
-		return {
-			createButton: function(innerHTML) {
-				var node = element('td');
-				node.innerHTML = innerHTML;
-				function listener() {
-					deselect();
-					selected_day = node;
-					select();
-				};
-				node.addEventListener('click', listener, true);
-				return node;
-			},
-			getSelected: function() {
-				return selected_day;
-			}
-		};
+	return function(innerHTML, click_listener) {
+		var button = element('td');
+		button.setAttribute('class', 'button');
+		button.innerHTML = innerHTML;
+		button.addEventListener('click', click_listener, true);
+		return button;
 	};
 })();
 
+
+
+
+
+// for iterating through the calendar
 var dateIterable = (function() {
 	var month_day_count = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 	var weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -127,7 +51,7 @@ var dateIterable = (function() {
 			currentDay: function() { return day; },
 			currentMonth: function() { return month; },
 			currentYear: function() { return year; },
-			
+
 			firstDayWeekday: function() { 
 				return 7 - (35 + (day - 1) - weekday) % 7;
 			},
@@ -137,11 +61,9 @@ var dateIterable = (function() {
 					--year;
 					month = 11;
 				}
-				console.log(weekday + ' of ' + (month + 1) + ' to prev [' + month + '] = ' + monthDayCount());
 				weekday = 7 - (monthDayCount() - weekday) % 7;
 			},
 			nextMonth: function() {
-				console.log(weekday + ' of ' + month + ' to next [' + (month + 1) + '] = ' + monthDayCount());
 				weekday = (weekday + monthDayCount()) % 7;
 				++month;
 				if (month > 11) {
@@ -162,27 +84,104 @@ var dateIterable = (function() {
 	};
 })();
 
-var dayTable = (function() {
-	return {
+var nextPreviousButton = (function() {
+	return function(target, create_data, previous_listener, next_listener) {
+		var label = element('td');
+		label.setAttribute('class', 'switcher-label');
+		label.setAttribute('colspan', '5');
+		
+		var left_button = button('<', previous_listener);
+		left_button.setAttribute('class', 'left-button');
+		target.appendChild(left_button);
+		target.appendChild(label);
+		var right_button = button('>', next_listener);
+		right_button.setAttribute('class', 'right-button');
+		target.appendChild(right_button);
+
+		return {
+			target: target,
+			setLabel: function(innerHTML) {
+				label.innerHTML = innerHTML;
+			}
+		};
+	}
+})();
+
+var dayButtonWrapper = (function() {
+	return function(side_effect, create_data) {
+		var selected_day = element('div');
+		var selected_class = '';
+		function select() {
+			side_effect(selected_day);
+			selected_class = selected_day.getAttribute('class');
+			selected_day.setAttribute('class', 'active');
+		};
+		function deselect() {
+			selected_day.setAttribute('class', selected_class);
+		};
+		return {
+			createButton: function(innerHTML) {
+				var target = create_data()
+				target.innerHTML = innerHTML;
+				function listener() {
+					deselect();
+					selected_day = target;
+					select();
+				};
+				target.addEventListener('click', listener, true);
+				return target;
+			},
+			getSelected: function() {
+				return selected_day;
+			}
+		};
+	};
+})();
+
+
+var dayTableHeadingMaker = (function() {
+	return function(create_row, create_heading) {
+		var weekdays = ['Mo', 'Tu', 'We', 'Th', "Fr", 'Sa', 'Su'];
+		var target = create_row();
+		for (var i in weekdays) {
+			var data = create_heading();
+			data.innerHTML = weekdays[i];
+			target.appendChild(data);
+		}
+		return function() {
+			return target;
+		};
+	};
+})();
+
+var datePick = (function() {
+	return function(text_edit, 
+		date_container, 
+		close, 
+		year_switch, month_switch, day_switch, 
+		create_row, create_heading, create_data) {
+
+		var day_table_heading = dayTableHeadingMaker(create_row, create_heading);
+
+
+		var dayTable = (function() {
 		// weekdays 0..6
 		// months 0..11
-		create: function(date, day_button_wrapper) {
-			var node = element('tr');
-			node.appendChild(dayTableHeading.create());
+		return function(target, date, day_button_wrapper) {
+			target.appendChild(day_table_heading());
 			/*for (var i = 6; i; --i) {
-				var row = element('tr');
+				var row = create_row();
 				for (var j = 7; j; --j) {
 					row.appendChild(day_button_wrapper.createButton(0));
 				}
-				node.appendChild(row.getRoot());
+				target.appendChild(row.target);
 			}*/
 
 			var current_month_day_count = date.monthDayCount();
 			var month_first_day_weekday = date.firstDayWeekday();
-			console.log('date = ' + date.currentWeekday() + ' ' + date.currentDay() + ' ' + date.currentMonth() + ' ' + date.currentYear());
-			
+
 			date.previousMonth();
-			var row = element('tr');
+			var row = create_row();
 			var days_showed = month_first_day_weekday == 0 ? 7 : month_first_day_weekday;
 			for (var i = days_showed; i > 0; --i) {
 				var day_button = day_button_wrapper.createButton(date.monthDayCount() - i + 1);
@@ -199,21 +198,21 @@ var dayTable = (function() {
 				row.appendChild(day_button);
 				++day_counter;
 			}
-			node.appendChild(row);
+			target.appendChild(row);
 
 			var full_weeks_count = Math.trunc((current_month_day_count - day_counter) / 7);
 			for (var i = full_weeks_count; i > 0; --i) {
-				var row = element('tr');
+				var row = create_row();
 				for (var j = 7; j > 0 && day_counter <= current_month_day_count; --j) {
 					var day_button = day_button_wrapper.createButton(day_counter);
 					day_button.setAttribute('class', 'current');
 					row.appendChild(day_button);
 					++day_counter;
 				}
-				node.appendChild(row);
+				target.appendChild(row);
 			}
 
-			row = element('tr');
+			row = create_row();
 			days_left = current_month_day_count - day_counter + 1;
 			for (var i = days_left; i > 0; --i) {
 				var day_button = day_button_wrapper.createButton(day_counter);
@@ -229,124 +228,119 @@ var dayTable = (function() {
 				row.appendChild(day_button);
 				++next_counter;
 			}
-			node.appendChild(row);
+			target.appendChild(row);
 
 			for (var i = 4 - full_weeks_count; i > 0; --i) {
-				var row = element('tr');
+				var row = create_row();
 				for (var j = 7; j > 0; --j) {
 					var day_button = day_button_wrapper.createButton(next_counter);
 					day_button.setAttribute('class', 'next');
 					row.appendChild(day_button);
 					++next_counter;
 				}
-				node.appendChild(row);
+				target.appendChild(row);
 			}
 
 			return {
-				getRoot: function() {
-					return node;
-				},
+				target: target,
 				getSelected: function() {
 					return day_button_wrapper.getSelected();
 				}
 			};
-		}
-	};	
-})();
+		};
+	})();
+	var dateInput = (function() {
+
+		return function(target, day_button_wrapper) {
+			target.style.display = 'none';
+
+			close.addEventListener('click', function() { target.style.display = 'none'; }, true);
+
+			var date = dateIterable(5, 3, 10, 2018);
+			var day_table = dayTable(day_switch, date, day_button_wrapper);
 
 
-var dateInput = (function() {
-
-	return function(day_button_wrapper) {
-		var node = element('table');
-		node.style.display = 'none';
-
-		var close_button = button.create('close', function() {
-			node.style.display = 'none';
-		});
-
-		var date = dateIterable(5, 3, 10, 2018);
-		var day_table = dayTable.create(date, day_button_wrapper);
+			function resetDateTable(date) {
+				day_switch.innerHTML = '';
+				year_switcher.setLabel(date.currentYear());
+				month_switcher.setLabel(date.currentMonth() + 1);
+				day_table = dayTable(day_switch, date, day_button_wrapper);
+				target.appendChild(day_table.target);
+			};
 
 
-		function resetDateTable(date) {
-			node.removeChild(day_table.getRoot());
-			delete day_table;
-			year_switcher.setLabel(date.currentYear());
+			var year_switcher = nextPreviousButton(
+				year_switch,
+				create_data,
+				function() {
+					date.previousYear();
+					resetDateTable(date);
+				},
+				function() {
+					date.nextYear();
+					resetDateTable(date);
+				});
+			var month_switcher = nextPreviousButton(
+				month_switch,
+				create_data,
+				function() {
+					date.previousMonth();
+					resetDateTable(date);
+				},
+				function() {
+					date.nextMonth();
+					resetDateTable(date);
+				});
 			month_switcher.setLabel(date.currentMonth() + 1);
-			day_table = dayTable.create(date, day_button_wrapper);
-			node.appendChild(day_table.getRoot());
-		};
-		
-		
-		var year_switcher = nextPreviousButton.create(
-			function() {
-				date.previousYear();
-				resetDateTable(date);
-			},
-			function() {
-				date.nextYear();
-				resetDateTable(date);
-			});
-		var month_switcher = nextPreviousButton.create(
-			function() {
-				date.previousMonth();
-				resetDateTable(date);
-			},
-			function() {
-				date.nextMonth();
-				resetDateTable(date);
-			});
-		month_switcher.setLabel(date.currentMonth() + 1);
-		year_switcher.setLabel(date.currentYear());
+			year_switcher.setLabel(date.currentYear());
 
-		node.appendChild(close_button);
-		node.appendChild(year_switcher.getRoot());
-		node.appendChild(month_switcher.getRoot());
+			target.appendChild(day_table.target);
 
-		node.appendChild(day_table.getRoot());
-
-		return {
-			getRoot: function() {
-				return node;
-			},
-			getDate: function() {
-				return date;
-			},
-			display: function() {
-				node.style.display = 'block';
-			},
-			hide: function() {
-				node.style.display = 'node';
-			}
-		};
-	}
-})();
-var datePick = (function() {
-	return function() {
-		var node = element('div');
-
-		var day_button_wrapper = dayButtonWrapper(function(selected_day) {
-			output.setDate((function(date) {
-				switch (selected_day.getAttribute('class')) {
-					case 'previous': 
-						date.previousMonth();
-						break;
-					case 'next':
-						date.nextMonth();
-						break;
+			return {
+				target,
+				resetDateTable: resetDateTable,
+				getDate: function() {
+					return date;
+				},
+				display: function() {
+					target.style.display = 'block';
+				},
+				hide: function() {
+					target.style.display = 'target';
 				}
+			};
+		}
+	})();
+
+	var day_picker = function(selected_day) {
+		output.setDate((function(date, input) {
+			var generateResult = function() {
 				return selected_day.innerHTML + '.' + (date.currentMonth() + 1) +  '.' + date.currentYear();
-			})(input.getDate()));
-		});
-		
-		var input = dateInput(day_button_wrapper);
-		var output = textOutput();
-		output.getRoot().addEventListener('click', function() { input.display(); }, true);
-		node.appendChild(output.getRoot());
-		node.appendChild(input.getRoot());
-		output.getRoot().value = 'i hate u, js';
-		
-		return node;
-	};		
+			};
+			var result;
+			switch (selected_day.getAttribute('class')) {
+				case 'previous': 
+				date.previousMonth();
+					result = '';//generateResult();
+					input.resetDateTable(date);
+					break;
+					case 'next':
+					date.nextMonth();
+					result = '';//generateResult();
+					input.resetDateTable(date);
+					break;
+					default:
+					result = generateResult();
+				}
+				return result;
+			})(input.getDate(), input));
+	};
+
+	var day_button_wrapper = dayButtonWrapper(day_picker, create_data);
+
+	var input = dateInput(date_container, day_button_wrapper);
+	var output = textOutput(text_edit);
+	output.target.addEventListener('click', function() { input.display(); }, true);
+	output.target.value = '';
+};
 })();
