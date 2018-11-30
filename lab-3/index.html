@@ -1,0 +1,40 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="date-input.css">
+</head>
+<body>
+	<h1>Date Pick</h1>
+	
+	<div>
+		<input type="text" name="" id="date-text">
+		<button type="button" id="loader">Load Server Date</button>
+		<table id="date-pick-wrapper" width="250px">
+			<thead>
+				<tr><td colspan="7" class="button" id="date-pick-close">close</td></tr>
+				<tr id="year-switcher"></tr>
+				<tr id="month-switcher"></tr>
+			</thead>
+			<tbody id="day-switcher"></tbody>
+			
+		</table>
+	</div>
+	
+	<script type="text/javascript" src="dateInput.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var generateDatePicker = function(date) {
+				["#year-switcher", "#month-switcher", "#day-switcher"].map(id => $(id).html(''));
+				var ids = ['#date-text', '#date-pick-wrapper', '#date-pick-close', '#year-switcher', '#month-switcher', '#day-switcher'];
+				datePick.apply(null, 
+					ids.map(id => $(id).get(0))
+					.concat(['tr', 'th', 'td'].map(tag => () => { return document.createElement(tag) }))
+					.concat([date.weekday, date.day, date.month, date.year]));
+			};
+			generateDatePicker({weekday: 2, day: 5, month: 11, year: 2018});
+			$("#loader").click(() => $.getJSON("date.json", generateDatePicker));
+		});
+	</script>
+</body>
+</html>

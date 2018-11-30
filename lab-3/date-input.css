@@ -1,0 +1,98 @@
+table,
+table th,
+table td {
+	border: 0;
+	padding: 0;
+}
+
+table {
+	background-color: #FFFFFF;
+	border-collapse: collapse;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+	color: #000000;
+	margin: 5px;
+}
+th {
+	height: 40px;
+	line-height: 40px;
+}
+
+.left-button {
+	float: left;
+}
+
+.right-button {
+	float: right;
+}
+
+.left-button,
+.right-button {
+	color: #999999;
+	cursor: pointer;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 12px;
+	font-weight: bold;
+	height: 20px;
+	line-height: 20px;
+	margin: 10px 8px;
+	text-align: center;
+	width: 20px;
+}
+
+td.left-button {
+	float: left;
+}
+td.right-button {
+	float: right;
+}
+td.switcher-label { 
+	font-size: 16px;
+	cursor: default;
+	font-weight: bold;
+	height: 20px;
+	padding: 0 20px;
+}
+
+th {
+	text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+th,
+td {
+	cursor: default;
+	font-size: 12px;
+	font-weight: lighter;
+	height: 36px;
+	line-height: 36px;
+	margin: 1px 2px;
+	text-align: center;
+	transition: color 0.1s, background-color 0.2s;
+	width: 36px;
+}
+
+td.previous:hover,
+td.next:hover,
+td.current:hover,
+td.left-button:hover,
+td.right-button:hover {
+	background-color: grey;
+	color: white;
+}
+td.active,
+td.button:hover {
+	background-color: red;
+	border: 2px solid #E6E6E6;
+	height: 32px;
+	line-height: 32px;
+	width: 32px;
+}
+td.previous,
+td.next {
+	background-color: #52C9FF;
+	color: #FFFFFF;
+}
+
+td.current {
+	color: #CACACA;
+}
+
