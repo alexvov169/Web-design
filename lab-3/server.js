@@ -17,5 +17,5 @@ app.get('/date.json', function (req, res) {
 })
 
 var server = app.listen(8081, function () { 
-   console.log("Example app is listening to http://localhost:%s", server.address().port)
+   console.log("Server is listening to http://localhost:%s", server.address().port)
 })

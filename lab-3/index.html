@@ -25,12 +25,15 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var generateDatePicker = function(date) {
+				var dateArray = [date.weekday, date.day, date.month, date.year];
+				
 				["#year-switcher", "#month-switcher", "#day-switcher"].map(id => $(id).html(''));
 				var ids = ['#date-text', '#date-pick-wrapper', '#date-pick-close', '#year-switcher', '#month-switcher', '#day-switcher'];
 				datePick.apply(null, 
 					ids.map(id => $(id).get(0))
 					.concat(['tr', 'th', 'td'].map(tag => () => { return document.createElement(tag) }))
-					.concat([date.weekday, date.day, date.month, date.year]));
+					.concat(dateArray));
+				$("#date-text").get(0).value = (date.day+'.'+date.month+'.'+date.year);
 			};
 			generateDatePicker({weekday: 2, day: 5, month: 11, year: 2018});
 			$("#loader").click(() => $.getJSON("date.json", generateDatePicker));
